@@ -36,29 +36,10 @@ namespace SistemaLogin
                     Console.Write("SENHA: ");
                     string senha = Console.ReadLine()!;
 
-                    // if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(senha))
-                    // {
-                    //     Console.WriteLine("Login e Senha não podem ser vazio! Tente Novamente.");
-                    //     conexao.conn!.Close();
-                    //     continue;
-                    // }
-
                     bool login_senha = conexao.VerificarLogin(login, senha);
 
                     if (login_senha)
                     {
-                        // MySqlCommand comando = new MySqlCommand();
-                        // comando.Connection = conexao.conn;
-                        // comando.CommandText = "update usuario set ultimologin = '@ultimologin' where login = '@login' and senha = '@senha'";
-                        // comando.Prepare();
-
-                        // DateTime data = DateTime.Now;
-
-                        // comando.Parameters.AddWithValue("@ultimologin", data);
-                        // comando.Parameters.AddWithValue("@login", login);
-                        // comando.Parameters.AddWithValue("@senha", senha);
-
-                        // comando.ExecuteNonQuery();
                         DateTime data = DateTime.Now;
                         string sql = $"update usuario set ultimologin = '{data.ToString("yyyy/MM/dd HH:mm:ss")}' where login = '{login}' and senha = '{senha}'";
                         MySqlCommand comando = new MySqlCommand(sql, conexao.conn);
@@ -170,15 +151,10 @@ namespace SistemaLogin
                     System.Console.Write("LOGIN: ");
                     string login = Console.ReadLine()!;
 
-                    // string sql = $"select * from usuario " +
-                    //               $"where login like '%{login}%' or senha like '%{login}%'" +
-                    //               "order by ultimologin desc";
-
                     Console.Clear();
                     System.Console.WriteLine("---------------- TABELA ------------------");
                     System.Console.WriteLine("| ID - LOGIN - SENHA - ÚLTIMO LOGIN |");
                     System.Console.WriteLine();
-                    //System.Console.WriteLine(conexao.ShowTable(conexao.Comando(sql)));
                     var tabela = conexao.conn.Query<Usuario>(
                         "select * from usuario " +
                         "where login like @login or senha like @login " +

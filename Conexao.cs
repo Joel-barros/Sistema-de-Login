@@ -18,8 +18,6 @@ namespace SistemaLogin
         public MySqlConnection? conn { get; private set; }
         public MySqlCommand? command { get; private set; }
         public MySqlDataReader? reader { get; private set; }
-        // public MySqlCommand? command_login { get; private set; }
-        // public MySqlDataReader? reader_login { get; private set; }
         public int erroLines { get; private set; }
 
         public Conexao()
@@ -96,33 +94,6 @@ namespace SistemaLogin
                 return false;
             }
         }
-        // public bool VerificarLogin(string login)
-        // {
-        //     try
-        //     {
-        //         string sql = $"select * from usuario where login = '{login}'";
-        //         command = new MySqlCommand(sql, conn);
-        //         using (reader = command.ExecuteReader())
-        //         {
-        //             if (reader.Read() && login == (string)reader.GetValue(1))
-        //             {
-        //                 Console.WriteLine($"Suas informações foram atualizadas!");
-        //                 return true;
-        //             }
-        //             else
-        //             {
-        //                 Console.WriteLine("Login incorreto ou não existente, por favor tente novamente.");
-        //                 return false;
-        //             }
-        //         }
-        //     }
-        //     catch (MySqlException ex)
-        //     {
-        //         Console.WriteLine(ex.Message.ToString());
-        //         return false;
-        //         //throw;
-        //     }
-        // }
         public string ShowTable(MySqlDataReader reader)
         {
             string table = "";
