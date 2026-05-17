@@ -68,8 +68,17 @@ namespace SistemaLogin
             {
                 Console.Clear();
                 conexao.conn!.Open();
-                System.Console.WriteLine($"-------- SEJA BEM VINDO ----------");
-                Console.WriteLine("- CENTRAL DE GERENCIAMENTO DE CONTAS -");
+
+                string usuario = "select login from usuario order by ultimologin desc";
+                MySqlCommand comando = new MySqlCommand(usuario, conexao.conn);
+                MySqlDataReader reader = comando.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    Console.WriteLine($"-------- SEJA BEM VINDO(A) {reader.GetString(0).ToUpper()} ----------");
+                    Console.WriteLine("- CENTRAL DE GERENCIAMENTO DE CONTAS -");
+                    reader.Close();
+                }
 
                 Console.WriteLine("CADASTRAR REGISTRO -> 1 \nATUALIZAR REGISTRO -> 2 \nPROCURAR REGISTRO --> 3");
                 string acao = Console.ReadLine()!;

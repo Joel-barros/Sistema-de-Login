@@ -18,3 +18,4 @@
 /home/joel/Documentos/PROJETOS/APPS_C#/SistemaLogin/obj/Debug/net8.0/SistemaLogin.genruntimeconfig.cache
 /home/joel/Documentos/PROJETOS/APPS_C#/SistemaLogin/obj/Debug/net8.0/ref/SistemaLogin.dll
 /home/joel/Documentos/PROJETOS/APPS_C#/SistemaLogin/bin/Debug/net8.0/Dapper.dll
+/home/joel/Documentos/PROJETOS/APPS_C#/SistemaLogin/obj/Debug/net8.0/SistemaLogin.sourcelink.json
