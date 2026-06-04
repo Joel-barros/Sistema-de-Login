@@ -6,13 +6,6 @@ using MySqlConnector;
 
 namespace SistemaLogin
 {
-    public class Usuario
-    {
-        public int id { get; set; }
-        public string? login { get; set; }
-        public string? senha { get; set; }
-        public DateTime ultimologin { get; set; }
-    }
     public class Conexao
     {
         public MySqlConnection? conn { get; private set; }
@@ -31,12 +24,12 @@ namespace SistemaLogin
             };
             conn = new MySqlConnection(builder.ConnectionString);
         }
-        public MySqlDataReader Comando(string sql)
+        public async Task<MySqlDataReader> Comando(string sql)
         {
             try
             {
                 command = new MySqlCommand(sql, conn);
-                using (reader = command.ExecuteReader())
+                using (reader = await command.ExecuteReaderAsync())
                 {
                     return reader;
                 }
@@ -63,15 +56,15 @@ namespace SistemaLogin
                 return null!;
             }
         }
-        public bool VerificarLogin(string login, string senha)
+        public async Task<bool> VerificarLogin(string login, string senha)
         {
             try
             {
                 string sql = $"select * from usuario where login = '{login}' and senha = '{senha}'";
                 command = new MySqlCommand(sql, conn);
-                using (reader = command.ExecuteReader())
+                using (reader = await command.ExecuteReaderAsync())
                 {
-                    if (reader.Read() && login == (string)reader.GetValue(1) && senha == (string)reader.GetValue(2))
+                    if (await reader.ReadAsync() && login == (string)reader.GetValue(1) && senha == (string)reader.GetValue(2))
                     {
                         return true;
                     }
@@ -94,16 +87,16 @@ namespace SistemaLogin
                 return false;
             }
         }
-        public string ShowTable(MySqlDataReader reader)
+        public async Task<string> ShowTable(MySqlDataReader reader)
         {
             string table = "";
-            using (reader = command!.ExecuteReader())
+            using (reader = await command!.ExecuteReaderAsync())
             {
-                while (reader.Read())
+                while (await reader.ReadAsync())
                 {
                     table += $"| {reader.GetInt32(0)} - {reader.GetString(1)} | {reader.GetString(2)} | {reader.GetDateTime(3)} | \n";
                 }
-    
+
                 return table;
             }
         }
