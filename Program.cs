@@ -17,7 +17,6 @@ namespace SistemaLogin
         public static async Task Main(string[] args)
         {
             var conexao = new Conexao();
-            //conexao.conn!.Open();
 
             Console.WriteLine("-Pressione Enter-");
             Console.ReadKey();
@@ -80,7 +79,7 @@ namespace SistemaLogin
                     await reader.CloseAsync();
                 }
 
-                Console.WriteLine("CADASTRAR REGISTRO -> 1 \nATUALIZAR REGISTRO -> 2 \nPROCURAR REGISTRO --> 3");
+                Console.WriteLine("CADASTRAR REGISTRO -> 1 \nATUALIZAR REGISTRO -> 2 \nPROCURAR REGISTRO --> 3 \nDELETAR REGISTRO ---> 4 \nSAIR -----------> Enter");
                 string acao = Console.ReadLine()!;
 
                 if (acao == "1")
@@ -143,9 +142,13 @@ namespace SistemaLogin
 
                     MySqlDataReader resultadoDoComando = await conexao.Comando(sql);
 
-                    if (resultadoDoComando == null) { Console.ReadKey(); 
-                    await conexao.conn!.CloseAsync(); continue; }
-                    
+                    if (resultadoDoComando == null)
+                    {
+                        Console.ReadKey();
+                        await conexao.conn!.CloseAsync(); 
+                        continue;
+                    }
+
                     else
                     {
                         System.Console.WriteLine("Registro atualizado!");
@@ -179,21 +182,47 @@ namespace SistemaLogin
                     {
                         Console.WriteLine($"| {item.id} - {item.login} - {item.senha} - {item.ultimologin} |");
                     }
-                    
+
                     System.Console.WriteLine("- Pressione Enter para voltar -");
 
                     Console.ReadKey();
                     await conexao.conn.CloseAsync();
                     continue;
                 }
+
+                if (acao == "4")
+                {
+                    Console.Clear();
+                    Console.WriteLine("- DELETAR REGISTRO -");
+                    Console.Write("LOGIN:");
+                    var login = Console.ReadLine();
+
+                    var sql = $"DELETE FROM usuario where login = '{login}'";
+
+                    MySqlCommand command = new MySqlCommand(sql, conexao.conn);
+                    var delete = await command.ExecuteNonQueryAsync();
+
+                    if (delete == 0)
+                    {
+                        Console.Write("Login incorret0.\nTente Novamente...");
+                        await conexao.conn.CloseAsync();
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    Console.WriteLine($"Usuario {login} foi deletado!");
+                    Console.Write("Pressione Enter para continuar...");
+                    Console.ReadKey();
+                    await conexao.conn.CloseAsync();
+                    continue;
+                }
                 else
                 {
-                    System.Console.WriteLine("Finalizou");
                     await conexao.conn.CloseAsync();
                     break;
                 }
             }
-            System.Console.WriteLine("Final");
+            System.Console.WriteLine("Tchau :)");
         }
     }
 }
